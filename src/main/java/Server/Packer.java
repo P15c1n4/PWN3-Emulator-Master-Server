@@ -52,8 +52,8 @@ public class Packer {
         for(Char newChar : charas){
            String lengthnick = ReverseString(IntToHex(newChar.getCharName().length(),"4"));
            String lengthlocal = ReverseString(IntToHex(newChar.getCharLocal().length(),"4"));
-
-           result.insert(result.length(), ReverseString(IntToHex(Integer.valueOf(charas.get(0).getCharId()), "8")))
+           
+           result.insert(result.length(), ReverseString(IntToHex(Integer.valueOf(newChar.getCharId()), "8")))
                  .insert(result.length(), lengthnick)
                  .insert(result.length(), StringToHex(newChar.getCharName()))
                  .insert(result.length(), lengthlocal)
@@ -146,10 +146,7 @@ public class Packer {
          return "00"+lenStg+hexStg;
      }       
             
-            
-            
-            
-    
+
     //Conversão basicas
     private String StringToHex(String text){
    

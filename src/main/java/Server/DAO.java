@@ -2,6 +2,7 @@ package Server;
 
 import Model.Char;
 import Model.Conta;
+import Model.Item;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -88,6 +89,36 @@ public class DAO {
             
             chara.setCharId(String.valueOf(rs.getInt("charId")));
             
+            
+            sql = "insert into charitens (charID,item,total,hand,bulletAta) values(?,?,?,?,?)";
+            
+            pst = con.prepareStatement(sql);
+            pst.setString(1, chara.getCharId());
+            pst.setString(2, "GreatBallsOfFire");
+            pst.setInt(3, 1);
+            pst.setBoolean(4, true);
+            pst.setInt(5, 0);
+            
+            pst.executeUpdate();
+            
+            pst = con.prepareStatement(sql);
+            pst.setString(1, chara.getCharId());
+            pst.setString(2, "CowboyCoder");
+            pst.setInt(3, 1);
+            pst.setBoolean(4, true);
+            pst.setInt(5, 6);
+
+            pst.executeUpdate();
+            
+            pst = con.prepareStatement(sql);
+            pst.setString(1, chara.getCharId());
+            pst.setString(2, "RevolverAmmo");
+            pst.setInt(3, 10);
+            pst.setBoolean(4, false);
+            pst.setInt(5, 0);
+            
+            pst.executeUpdate();
+            
             con.close();
             
             return true;
@@ -100,34 +131,58 @@ public class DAO {
 
     } 
         
-        public boolean GetCharInfo(Char chara){
-        String sql = "select * from accchar where charId = ?";
+        public ArrayList<Item> GetCharInfo(Char chara){
         
-        try{
-            Connection con = conectarMysql();
-            
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, chara.getCharId());
-            
-            ResultSet rs = pst.executeQuery();
-            rs.next();
-            
-            chara.setCharId(rs.getString("charId"));
-            chara.setAccId(String.valueOf(rs.getInt("accId")));
-            chara.setCharName(rs.getString("nick"));
-            chara.setCharSpec(rs.getString("charSpec"));
-            chara.setCharStatus(rs.getString("charStatus"));
-            chara.setCharLocal(rs.getString("charLocal"));
-            
-            con.close();
-            
-            return true;
-            
+            ArrayList<Item> itens = new ArrayList();
+            String sql = "select * from accchar where charId = ?";
+        
+        
+            try{
+                Connection con = conectarMysql();
+
+                PreparedStatement pst = con.prepareStatement(sql);
+                pst.setString(1, chara.getCharId());
+
+                ResultSet rs = pst.executeQuery();
+                rs.next();
+
+                chara.setCharId(rs.getString("charId"));
+                chara.setAccId(String.valueOf(rs.getInt("accId")));
+                chara.setCharName(rs.getString("nick"));
+                chara.setCharSpec(rs.getString("charSpec"));
+                chara.setCharStatus(rs.getString("charStatus"));
+                chara.setCharLocal(rs.getString("charLocal"));
+
+
+                sql = "Select * from charitens where charId = ?";
+
+                pst = con.prepareStatement(sql);
+                pst.setInt(1, Integer.valueOf(chara.getCharId()));
+
+                rs = pst.executeQuery();
+
+                while(rs.next()){
+                    Item item = new Item();
+                    
+                    item.setItemName(rs.getString("item"));
+                    item.setItemId(String.valueOf(rs.getInt("id")));
+                    item.setItemQuant(rs.getInt("total"));
+                    item.setCharID(String.valueOf(rs.getInt("charID")));
+                    item.setHand(rs.getBoolean("hand"));
+                    item.setBulletAta(rs.getInt("bulletAta"));
+                    
+                    itens.add(item);
+                }
+                
+                con.close();
+                
+                
+                return itens;
             
         }catch(Exception e){
-            System.out.println(e);
+                System.out.println(e);
         }
-        return false;
+        return itens;
 
     } 
         

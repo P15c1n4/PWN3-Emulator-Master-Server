@@ -78,5 +78,12 @@ public class Char extends Conta{
     }
     
     
+    public void Clear(){
+        charName = null;
+        charId = null;
+        charSpec = null;
+        charStatus = null;
+        charLocal = null;
+    }
     
 }

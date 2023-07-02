@@ -3,6 +3,7 @@ package Server;
 
 import Model.Char;
 import Model.Conta;
+import Model.Item;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -168,15 +169,35 @@ public class Responce extends Thread{
     
     //Pacote de login no personagem(envia conteudo)(0D)
     private String CharSpcsFinal(String Hex){
-        
         String charId = TradutorInt(2, Hex.length(), Hex, true);
         
         String md5HashLoginGame = DigestUtils.md5Hex(charId);
         
         chara.setCharId(charId);        
-        dao.GetCharInfo(chara);
         
-        return packer.CharSpcsFinal(charId,"game.pwn3", 3001, md5HashLoginGame, chara.getCharName(), conta.getAccTeamName(),chara.getCharStatus());
+        ArrayList<Item> itens = new ArrayList();
+        itens = dao.GetCharInfo(chara);
+        String charItens = ReverseString(IntToHex(itens.size(),"4"));
+        String charItensHand = "";
+        
+        for(Item item : itens){
+
+            String nameLen = ReverseString(IntToHex(item.getItemName().length(), "4"));
+            String nameHex = StringToHex(item.getItemName());
+            String itenTotal = ReverseString(IntToHex(item.getItemQuant(), "4"));
+            
+            String bulletAta = ReverseString(IntToHex(item.getBulletAta(), "4"));
+            
+            charItens += nameLen+nameHex+itenTotal+"0000"+bulletAta;
+            
+            if(item.isHand()){
+                charItensHand += nameLen+nameHex;
+            }
+        }
+
+        charItensHand += "00000000000000000000000000000000000000";
+        //System.out.println("010008004c6f7374436176650000000000000000"+charItens+charItensHand+chara.getCharStatus());
+        return packer.CharSpcsFinal(charId,"game.pwn3", 3001, charId, chara.getCharName(), conta.getAccTeamName(),"010008004c6f7374436176650000000000000000"+charItens+charItensHand+chara.getCharStatus());
     }
     
     private String CreatAcc(String Hex){
@@ -323,5 +344,11 @@ public class Responce extends Thread{
     public static boolean ValidadorDados(String str) {
         
         return Pattern.matches("[a-zA-Z0-9]+", str);
+    }
+    
+    private String IntToHex(int num, String size){
+        String hexadecimal = String.format("%0"+size+"X", num);
+        
+        return hexadecimal;
     }
 }
