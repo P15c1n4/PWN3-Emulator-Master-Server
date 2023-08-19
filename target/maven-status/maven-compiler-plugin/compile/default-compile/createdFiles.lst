@@ -1,6 +1,0 @@
-Model\Char.class
-Model\Conta.class
-Server\ServerConn.class
-Server\DAO.class
-Server\Responce.class
-Server\Packer.class

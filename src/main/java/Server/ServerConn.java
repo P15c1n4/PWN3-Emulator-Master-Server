@@ -9,7 +9,7 @@ import java.security.cert.CertificateException;
 public class ServerConn {
     static Packer packer = new Packer();
     
-    private static final String KEYSTORE_PATH = "./keystore.jks";
+    private static final String KEYSTORE_PATH = "C:\\Users\\Usuario\\Documents\\NetBeansProjects\\Server_pwn3\\src\\main\\java\\Itens\\keystore.jks";
     private static final String KEYSTORE_PASSWORD = "123456";
     private static final int PORT = 3333;
     

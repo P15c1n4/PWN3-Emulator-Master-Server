@@ -8,13 +8,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HexFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-import javax.net.ssl.SSLSocket;
-import org.apache.commons.codec.digest.DigestUtils;
 
 public class Responce extends Thread{
     Packer packer = new Packer();
@@ -171,8 +170,6 @@ public class Responce extends Thread{
     private String CharSpcsFinal(String Hex){
         String charId = TradutorInt(2, Hex.length(), Hex, true);
         
-        String md5HashLoginGame = DigestUtils.md5Hex(charId);
-        
         chara.setCharId(charId);        
         
         ArrayList<Item> itens = new ArrayList();
@@ -229,7 +226,7 @@ public class Responce extends Thread{
             
         }
         
-        String md5HashTeam = DigestUtils.md5Hex(TeamName);
+        String md5HashTeam = MD5Hash(TeamName);
         
         conta.setAccTeamHash(md5HashTeam);
         conta.setAccTeamName(TeamName);
@@ -246,7 +243,7 @@ public class Responce extends Thread{
 
         dao.RegisterAcc(conta);
 
-        return packer.CreatAcc(conta.getAccName(), conta.getAccTeamName(), Integer.valueOf(conta.getAccId()));
+        return packer.CreatAcc(conta.getAccName(), Integer.valueOf(conta.getAccId()), conta.getAccTeamHash());
         
     }
     
@@ -341,6 +338,9 @@ public class Responce extends Thread{
         return hexadecimal;
         
     }
+    
+    //validar dados   
+    
     public static boolean ValidadorDados(String str) {
         
         return Pattern.matches("[a-zA-Z0-9]+", str);
@@ -350,5 +350,22 @@ public class Responce extends Thread{
         String hexadecimal = String.format("%0"+size+"X", num);
         
         return hexadecimal;
+    }
+    
+    //Gerador MD5 (removido biblioteca)
+    public static String MD5Hash(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes());
+            
+            StringBuilder hashBuilder = new StringBuilder();
+            for (byte b : messageDigest) {
+                hashBuilder.append(String.format("%02x", b & 0xFF));
+            }
+            
+            return hashBuilder.toString();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

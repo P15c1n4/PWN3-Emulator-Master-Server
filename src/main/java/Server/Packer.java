@@ -3,7 +3,6 @@ package Server;
 import Model.Char;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import org.apache.commons.codec.digest.DigestUtils;
 
 public class Packer {
 
@@ -108,9 +107,9 @@ public class Packer {
     }
             
      //Pacote de criação de conta
-     public String CreatAcc(String accName, String accTeam, int newAccId){
+     public String CreatAcc(String accName, int newAccId, String teamHash){
          
-         String md5Hash = DigestUtils.md5Hex(accTeam);
+         String md5Hash = teamHash;
         
          
          String idHex = ReverseString(IntToHex(newAccId,"8"));

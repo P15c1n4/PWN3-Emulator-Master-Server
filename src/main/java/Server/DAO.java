@@ -24,7 +24,11 @@ public class DAO {
             Class.forName(driver);
             con = DriverManager.getConnection(url, user, password);
             return con;
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        }
+        catch (Exception e) {
             System.out.println(e);
             return null;
         }
@@ -59,10 +63,11 @@ public class DAO {
             return true;
             
             
-        }catch(Exception e){
+        }catch(SQLException e){
             System.out.println(e);
+            return false;
         }
-        return false;
+
 
     } 
     
@@ -126,8 +131,8 @@ public class DAO {
             
         }catch(SQLException  e){
             System.out.println(e);
+            return false;
         }
-        return false;
 
     } 
         
@@ -179,10 +184,11 @@ public class DAO {
                 
                 return itens;
             
-        }catch(Exception e){
-                System.out.println(e);
+        }catch(SQLException e){
+             System.out.println(e);
+             return itens;
         }
-        return itens;
+        
 
     } 
         
@@ -210,10 +216,11 @@ public class DAO {
             
             return false;          
 
-        }catch(Exception e){
+        }catch(SQLException e){
             System.out.println(e);
+            return false;
         }
-        return false;
+        
 
     } 
     public ArrayList<Char> GetAccChar(Conta conta){
@@ -250,10 +257,11 @@ public class DAO {
             return charas;
             
             
-        }catch(Exception e){
+        }catch(SQLException e){
             System.out.println(e);
+            return charas;
         }
-        return charas;
+        
 
     } 
      
@@ -284,8 +292,9 @@ public class DAO {
             
         }catch(SQLException  e){
             System.out.println(e);
+            return false;
         }
-        return false;
+        
 
     } 
     public boolean AccNameVerify(Conta conta){
@@ -315,12 +324,13 @@ public class DAO {
             
         }catch(SQLException  e){
             System.out.println(e);
+            return false;
         }
-        return false;
+        
 
     } 
     public boolean TeamNameVerify(Conta conta){
-        String sql = "select * from accont where accTeamNam = ? ";
+        String sql = "select * from accont where accTeamName = ? ";
         
         try{
             boolean result;
@@ -346,8 +356,9 @@ public class DAO {
             
         }catch(SQLException  e){
             System.out.println(e);
+            return false;
         }
-        return false;
+        
 
     }
 }
