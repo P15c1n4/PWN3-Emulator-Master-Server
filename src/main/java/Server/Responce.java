@@ -11,24 +11,24 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HexFormat;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 public class Responce extends Thread{
     Packer packer = new Packer();
-    DAO dao =new DAO();
     Char chara = new Char();
     Conta conta = new Conta();
-
+    DAO dao;
     
     InputStream inputStream;
     OutputStream outputStream;
             
-    public Responce(InputStream inputStream,OutputStream outputStream){
+    public Responce(InputStream inputStream,OutputStream outputStream, Map config){
         this.inputStream = inputStream;
         this.outputStream = outputStream;
- 
+        this.dao =  new DAO(config);
     }
     
     @Override

@@ -9,13 +9,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class DAO {
     
-    private final String driver = "com.mysql.cj.jdbc.Driver";
-    private final String url = "jdbc:mysql://127.0.0.1:3306/pwn3?useTimezone=true&serverTimezone=UTC";
-    private final String user = "root";
-    private final String password = "";
+    private String driver = "com.mysql.cj.jdbc.Driver";
+    private String url = "jdbc:mysql://127.0.0.1:3306/pwn3?useTimezone=true&serverTimezone=UTC";
+    private String user = "root";
+    private String password = "";
+    
+   
+    public DAO(Map config){
+        this.url = "jdbc:mysql://"+config.get("DbIp").toString()+":"+config.get("DbPort").toString()+"/pwn3?useTimezone=true&serverTimezone=UTC";
+        this.user = config.get("DbLogin").toString();
+        this.password = config.get("DbPass").toString();
+    }
+    
     
     
     private Connection conectarMysql() {
