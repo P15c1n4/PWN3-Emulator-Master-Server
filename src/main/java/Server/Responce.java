@@ -21,6 +21,7 @@ public class Responce extends Thread{
     Char chara = new Char();
     Conta conta = new Conta();
     DAO dao;
+    Map config;
     
     InputStream inputStream;
     OutputStream outputStream;
@@ -29,6 +30,7 @@ public class Responce extends Thread{
         this.inputStream = inputStream;
         this.outputStream = outputStream;
         this.dao =  new DAO(config);
+        this.config = config;
     }
     
     @Override
@@ -39,7 +41,7 @@ public class Responce extends Thread{
               
         try{
             //pacote de login
-            SendData(packer.LoginMenssage("Servidor Piscina", "Este servidor foi baseado no servidor original do jogo PWN3"));
+            SendData(packer.LoginMenssage(config.get("ServerTitle").toString(), config.get("ServerDesc").toString()));
             
             while((bytesRead = inputStream.read(buffer)) != -1){
                 

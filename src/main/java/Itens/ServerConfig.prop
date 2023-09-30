@@ -5,3 +5,5 @@ DbIp:127.0.0.1
 DbPort:3306
 DbLogin:root
 DbPass:
+ServerTitle:Servidor Piscina
+ServerDesc:Este servidor foi baseado no servidor original do jogo PWN3
