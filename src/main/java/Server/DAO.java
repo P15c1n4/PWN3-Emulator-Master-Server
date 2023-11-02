@@ -204,31 +204,31 @@ public class DAO {
         public boolean Login(Conta conta){
         String sql = "select * from accont where accName = ? and accPass = ?";
         
-        try{
-            Connection con = conectarMysql();
-            
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, conta.getAccName());
-            pst.setString(2, conta.getAccPass());
-            
-            ResultSet rs = pst.executeQuery();
-            
-            if(rs.next()){
-                conta.setAccId(String.valueOf(rs.getInt("id")));
-                conta.setAccTeamHash(rs.getString("accTeamHash"));
-                conta.setAccTeamName(rs.getString("accTeamName"));
-                
-                return true;
-            }
-            
-            con.close();
-            
-            return false;          
+            try{
+                Connection con = conectarMysql();
 
-        }catch(SQLException e){
-            System.out.println(e);
-            return false;
-        }
+                PreparedStatement pst = con.prepareStatement(sql);
+                pst.setString(1, conta.getAccName());
+                pst.setString(2, conta.getAccPass());
+
+                ResultSet rs = pst.executeQuery();
+
+                if(rs.next()){
+                    conta.setAccId(String.valueOf(rs.getInt("id")));
+                    conta.setAccTeamHash(rs.getString("accTeamHash"));
+                    conta.setAccTeamName(rs.getString("accTeamName"));
+
+                    return true;
+                }
+
+                con.close();
+
+                return false;          
+
+            }catch(SQLException e ){
+                System.out.println("Banco de dados não econtrado!");
+                return false;
+            }
         
 
     } 
