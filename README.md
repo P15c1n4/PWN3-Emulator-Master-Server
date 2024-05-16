@@ -17,7 +17,7 @@ Nota:
 **ATENÇÃO**
 <br />
 
->Este servidor é uma implementação simples e parcial, destinada apenas como prova de conceito. Não possui todas as funcionalidades e recursos do servidor original! E propositalmente não foram impregadas boas práticas de programação necessárias em um projeto real.
+>Este servidor é uma implementação simples e parcial, destinada apenas como prova de conceito. Não possui todas as funcionalidades e recursos do servidor original! E muito menos foram impregadas boas práticas de programação necessárias em um projeto real.
 <br>
 
 **Handshake**✔
